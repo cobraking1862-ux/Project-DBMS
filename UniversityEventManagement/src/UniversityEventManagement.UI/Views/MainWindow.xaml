@@ -1,0 +1,248 @@
+<Window x:Class="UniversityEventManagement.UI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="University Event Management - Dashboard" 
+        Height="800" Width="1400"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Navigation Bar -->
+        <Border Grid.Row="0" Background="{StaticResource PrimaryBrush}" Padding="20,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Logo and Title -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="🎓" FontSize="32" Margin="0,0,15,0"/>
+                    <StackPanel>
+                        <TextBlock Text="University Event &amp; Competition Management" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Foreground="{StaticResource TextLightBrush}"/>
+                        <TextBlock x:Name="txtWelcomeMessage" 
+                                   FontSize="13" 
+                                   Foreground="{StaticResource PrimaryLightBrush}"
+                                   Margin="0,3,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- User Info and Logout -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="{StaticResource PrimaryLightBrush}" 
+                            CornerRadius="20" 
+                            Padding="15,8"
+                            Margin="0,0,15,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="👤" FontSize="18" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock x:Name="txtUserName" 
+                                       FontSize="14" 
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextLightBrush}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    <Button x:Name="btnLogout" 
+                            Content="Logout" 
+                            Style="{StaticResource ModernButton}"
+                            Background="{StaticResource AccentBrush}"
+                            Click="BtnLogout_Click"
+                            Padding="15,8"
+                            FontSize="13"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="1" Margin="25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Dashboard Header with Stats -->
+            <Border Grid.Row="0" 
+                    Background="{StaticResource SurfaceBrush}" 
+                    CornerRadius="15" 
+                    Padding="25"
+                    Margin="0,0,0,20"
+                    Effect="{StaticResource {x:Static DropShadowEffect.Key}}">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.1"/>
+                </Border.Effect>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Title Section -->
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Admin Dashboard Summary" 
+                                   FontSize="26" 
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Margin="0,0,0,8"/>
+                        <TextBlock Text="Overview of all university events and competitions" 
+                                   FontSize="14"
+                                   Foreground="{StaticResource TextSecondaryBrush}"/>
+                    </StackPanel>
+
+                    <!-- Filter ComboBox -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Filter by Status:" 
+                                   FontSize="14"
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <ComboBox x:Name="cboStatusFilter" 
+                                  Width="150" 
+                                  Height="35"
+                                  SelectionChanged="CboStatusFilter_SelectionChanged"
+                                  FontSize="13">
+                            <ComboBoxItem Content="All Events" IsSelected="True"/>
+                            <ComboBoxItem Content="Upcoming"/>
+                            <ComboBoxItem Content="Active"/>
+                            <ComboBoxItem Content="Completed"/>
+                            <ComboBoxItem Content="Cancelled"/>
+                        </ComboBox>
+                        <Button x:Name="btnRefresh" 
+                                Content="🔄 Refresh" 
+                                Style="{StaticResource ModernButton}"
+                                Click="BtnRefresh_Click"
+                                Margin="15,0,0,0"
+                                Padding="15,8"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- DataGrid Section -->
+            <Border Grid.Row="1" 
+                    Background="{StaticResource SurfaceBrush}" 
+                    CornerRadius="15" 
+                    Padding="20"
+                    Effect="{StaticResource {x:Static DropShadowEffect.Key}}">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.1"/>
+                </Border.Effect>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- DataGrid Header -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
+                        <TextBlock Text="📋 Event Summary" 
+                                   FontSize="18" 
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="txtRecordCount" 
+                                   Text="(0 records)"
+                                   FontSize="14"
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Margin="10,0,0,0"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Loading Indicator -->
+                    <StackPanel x:Name="pnlLoading" 
+                                Grid.Row="1" 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                Visibility="Collapsed">
+                        <ProgressBar IsIndeterminate="True" 
+                                     Width="200" 
+                                     Height="20"
+                                     Value="50"/>
+                        <TextBlock Text="Loading data..." 
+                                   Margin="0,10,0,0"
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Error Panel -->
+                    <Border x:Name="pnlError" 
+                            Grid.Row="1" 
+                            Background="#FFEBEE" 
+                            CornerRadius="10"
+                            Padding="20"
+                            Visibility="Collapsed">
+                        <StackPanel>
+                            <TextBlock Text="⚠️ Error Loading Data" 
+                                       FontSize="18" 
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource ErrorBrush}"
+                                       Margin="0,0,0,10"/>
+                            <TextBlock x:Name="txtErrorMessage" 
+                                       TextWrapping="Wrap"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <Button Content="Try Again" 
+                                    Style="{StaticResource ModernButton}"
+                                    Click="BtnRefresh_Click"
+                                    Margin="0,15,0,0"
+                                    HorizontalAlignment="Left"
+                                    Padding="20,10"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Empty State -->
+                    <Border x:Name="pnlEmpty" 
+                            Grid.Row="1" 
+                            Visibility="Collapsed">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="📭" FontSize="64" HorizontalAlignment="Center"/>
+                            <TextBlock Text="No events found" 
+                                       FontSize="18"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,15,0,0"/>
+                            <TextBlock Text="There are currently no events matching your criteria." 
+                                       FontSize="14"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- The DataGrid bound to vw_AdminDashboard_Summary -->
+                    <DataGrid x:Name="dgDashboard" 
+                              Grid.Row="1"
+                              Style="{StaticResource ModernDataGrid}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              IsReadOnly="True"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow"
+                              HeadersVisibility="Column"
+                              RowHeight="50"
+                              ColumnHeaderHeight="45">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Event ID" Binding="{Binding EventId}" Width="80"/>
+                            <DataGridTextColumn Header="Event Name" Binding="{Binding EventName}" Width="250"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding EventType}" Width="120"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding EventDate, StringFormat={}{0:MMM dd, yyyy}}" Width="120"/>
+                            <DataGridTextColumn Header="Venue" Binding="{Binding Venue}" Width="180"/>
+                            <DataGridTextColumn Header="Registrations" Binding="{Binding TotalRegistrations}" Width="100"/>
+                            <DataGridTextColumn Header="Submissions" Binding="{Binding TotalSubmissions}" Width="100"/>
+                            <DataGridTextColumn Header="Pending Eval." Binding="{Binding PendingEvaluations}" Width="110"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+                            <DataGridTextColumn Header="Organizer" Binding="{Binding OrganizerName}" Width="200"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
